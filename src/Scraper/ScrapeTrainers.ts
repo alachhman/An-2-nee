@@ -1,10 +1,12 @@
-import * as fs from "fs";
-import {log} from "util";
-
-const cheerio = require("cheerio");
-const axios = require("axios");
 const trainerPath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Trainer\\";
+// @ts-ignore
+const cheerio = require("cheerio");
+// @ts-ignore
+const axios = require("axios");
+// @ts-ignore
 const index = require("../Data/index.json");
+// @ts-ignore
+const fs = require('fs')
 
 const getTrainerData = async () => {
     await index.map(async function (trainer) {
@@ -16,6 +18,8 @@ const getTrainerData = async () => {
         const recruitMethod = $('#sync-pair-table > tbody > tr:nth-child(3) > td').text();
 
         const otherForms = $('.other-versions-cell').text().split('\n').filter(x => x != "");
+
+        const image = $('.trainer-top-image > a > img').attr("src")
 
         const iconLinks = []
 
@@ -40,6 +44,7 @@ const getTrainerData = async () => {
             info: description,
             recruit_method: recruitMethod,
             otherForms: otherForms,
+            imageLink: image,
             iconLinks: iconLinks,
             stampLinks: stampLinks,
             pokemon_list: trainer.pokemon

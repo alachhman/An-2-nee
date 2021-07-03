@@ -2,7 +2,6 @@ const webdriver = require('selenium-webdriver');
 const By = webdriver.By;
 const map = webdriver.promise.map;
 const Builder = webdriver.Builder;
-const fs = require('fs')
 const filePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\";
 require("chromedriver");
 
