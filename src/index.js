@@ -42,50 +42,50 @@ require('dotenv').config();
 var Discord = require('discord.js');
 exports.client = new Discord.Client();
 exports.guildID = "453732177058988034";
+var commands = require("./commands");
+var helpers_1 = require("./helpers");
 exports.client.once('ready', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var commands;
+    var registeredCommandList, commandList;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log('Ready!');
                 return [4 /*yield*/, helpers.getApp(exports.guildID).commands.get()];
             case 1:
-                commands = _a.sent();
-                //delete guild-level command
-                //await getApp(guildID).commands('id of command goes here').delete();
-                return [4 /*yield*/, helpers.getApp(exports.guildID).commands.post({
+                registeredCommandList = _a.sent();
+                console.log(registeredCommandList);
+                commandList = [
+                    commands.ping,
+                    commands.embed,
+                    commands.ms,
+                    commands.mp
+                ];
+                //
+                // for (let command of commandList) {
+                //     await command.registerCommand();
+                // }
+                return [4 /*yield*/, helpers_1.getApp(exports.guildID).commands.post({
                         data: {
-                            name: "ping",
-                            description: "Test Command"
-                        }
-                    })];
-            case 2:
-                //delete guild-level command
-                //await getApp(guildID).commands('id of command goes here').delete();
-                _a.sent();
-                return [4 /*yield*/, helpers.getApp(exports.guildID).commands.post({
-                        data: {
-                            name: 'embed',
-                            description: "Displays an embed",
+                            name: "mp",
+                            description: "Get exact names to use in the /ms command",
                             options: [
                                 {
                                     name: "name",
-                                    description: "Your Name",
+                                    description: "The name of a trainer.",
                                     required: true,
                                     type: 3
-                                },
-                                {
-                                    name: "age",
-                                    description: "Your Age",
-                                    type: 4
                                 }
                             ]
                         }
                     })];
-            case 3:
+            case 2:
+                //
+                // for (let command of commandList) {
+                //     await command.registerCommand();
+                // }
                 _a.sent();
                 exports.client.ws.on('INTERACTION_CREATE', function (interaction) { return __awaiter(void 0, void 0, void 0, function () {
-                    var _a, name, options, command, args, embed, arg;
+                    var _a, name, options, command, args, _i, commandList_1, x;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
                             case 0:
@@ -98,22 +98,19 @@ exports.client.once('ready', function () { return __awaiter(void 0, void 0, void
                                         args[name] = value;
                                     });
                                 }
-                                if (!(command == "ping")) return [3 /*break*/, 2];
-                                return [4 /*yield*/, helpers.reply(interaction, "pong")];
+                                _i = 0, commandList_1 = commandList;
+                                _b.label = 1;
                             case 1:
-                                _b.sent();
-                                _b.label = 2;
+                                if (!(_i < commandList_1.length)) return [3 /*break*/, 4];
+                                x = commandList_1[_i];
+                                if (!(x._name === command)) return [3 /*break*/, 3];
+                                return [4 /*yield*/, x.execute(interaction, args)];
                             case 2:
-                                if (!(command == "embed")) return [3 /*break*/, 4];
-                                embed = new Discord.MessageEmbed().setTitle("Test");
-                                for (arg in args) {
-                                    embed.addField(arg, args[arg]);
-                                }
-                                return [4 /*yield*/, helpers.reply(interaction, { embed: embed })];
-                            case 3:
                                 _b.sent();
-                                console.log(args);
-                                _b.label = 4;
+                                _b.label = 3;
+                            case 3:
+                                _i++;
+                                return [3 /*break*/, 1];
                             case 4: return [2 /*return*/];
                         }
                     });

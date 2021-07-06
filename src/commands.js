@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.embed = exports.ping = void 0;
+exports.ms = exports.mp = exports.embed = exports.ping = void 0;
 var Discord = require('discord.js');
 var Command_1 = require("./Command");
 var helpers = require("./helpers");
+var fetch = require("node-fetch");
 exports.ping = new Command_1.Command("ping", "Test Command", null, function (interaction, args) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -73,6 +74,68 @@ exports.embed = new Command_1.Command("embed", "Displays an embed", [
                 }
                 return [4 /*yield*/, helpers.reply(interaction, { embed: embed })];
             case 1:
+                _a.sent();
+                console.log(args);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.mp = new Command_1.Command("mp", "Get exact names to use in the /ms command", [
+    {
+        name: "name",
+        description: "The name of a trainer.",
+        required: true,
+        type: 3
+    }
+], function (interaction, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var trainerList, trainers, embed;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch("http://localhost:3000/api/trainer?name=" + args.name).then(function (response) {
+                    return response.json();
+                })];
+            case 1:
+                trainerList = _a.sent();
+                trainers = [];
+                trainerList.map(function (x) { return x.name; }).forEach(function (y) {
+                    if (!trainers.includes(y)) {
+                        trainers.push(y);
+                    }
+                });
+                embed = new Discord.MessageEmbed().setTitle("Results");
+                embed.addField("Trying using /ms on these:", trainers.join("\n"));
+                return [4 /*yield*/, helpers.reply(interaction, { embed: embed })];
+            case 2:
+                _a.sent();
+                console.log(args);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.ms = new Command_1.Command("ms", "Search for a PM trainer.", [
+    {
+        name: "name",
+        description: "The trainer you want to look for.",
+        required: true,
+        type: 3
+    }
+], function (interaction, args) { return __awaiter(void 0, void 0, void 0, function () {
+    var trainerList, trainer, embed;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch("http://localhost:3000/api/trainer?name=" + encodeURIComponent(args.name.toLowerCase().trim())).then(function (response) {
+                    return response.json();
+                })];
+            case 1:
+                trainerList = _a.sent();
+                trainerList.forEach(function (x) {
+                    console.log(x.name.toLowerCase() + " | " + args.name.toLowerCase());
+                });
+                trainer = trainerList.filter(function (x) { return x.name.toLowerCase() == args.name.toLowerCase(); })[0];
+                embed = new Discord.MessageEmbed().setTitle(trainer.name);
+                embed.setImage("https://gamepress.gg" + trainer.imageLink);
+                return [4 /*yield*/, helpers.reply(interaction, { embed: embed })];
+            case 2:
                 _a.sent();
                 console.log(args);
                 return [2 /*return*/];

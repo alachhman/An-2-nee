@@ -52,9 +52,11 @@ var Command = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, helpers_1.getApp(index_1.guildID).commands.post({
-                            name: this._name,
-                            descriptions: this._description,
-                            options: (_a = this._options) !== null && _a !== void 0 ? _a : []
+                            data: {
+                                name: this._name,
+                                description: this._description,
+                                options: (_a = this._options) !== null && _a !== void 0 ? _a : []
+                            }
                         })];
                     case 1:
                         _b.sent();

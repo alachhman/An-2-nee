@@ -2,10 +2,10 @@ import {getApp} from "./helpers";
 import {guildID} from "./index";
 
 export class Command<T, U, V> {
-    private readonly _name: string;
-    private readonly _description: string;
-    private readonly _options: T;
-    private readonly _callback: (U, V) => void;
+    public _name: string;
+    public _description: string;
+    public _options: T;
+    public _callback: (interaction: U, args: V) => void;
 
     constructor(name: string, description: string, options: T, callback: (U, V) => void) {
         this._name = name;
@@ -14,13 +14,14 @@ export class Command<T, U, V> {
         this._callback = callback;
     }
 
-    async registerCommand(): Promise<void> {
+    async registerCommand() {
         await getApp(guildID).commands.post({
-            name: this._name,
-            descriptions: this._description,
-            options: this._options ?? []
+            data: {
+                name: this._name,
+                description: this._description,
+                options: this._options ?? []
+            },
         });
-
     }
 
     async execute(interaction: any, args?: any): Promise<void> {

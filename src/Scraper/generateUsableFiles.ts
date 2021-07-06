@@ -3,14 +3,14 @@ const index = require("../Data/index.json");
 // @ts-ignore
 const fs = require('fs')
 const finalPath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\UsableData\\";
-const pokemonFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Pokemon";
-const trainerFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Trainer";
+const pokemonFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Pokemon\\";
+const trainerFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Trainer\\";
 
 let readFileStore = async (resourcePath) => {
     let files = fs.readdirSync(resourcePath).filter(file => file.endsWith('.json'));
     let returnArr = [];
     for (let file of files) {
-        let rawData = await fs.readFileSync(resourcePath + "\\" + file);
+        let rawData = await fs.readFileSync(resourcePath + file);
         returnArr.push(await JSON.parse(rawData));
     }
     return returnArr;

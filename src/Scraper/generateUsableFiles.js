@@ -40,8 +40,8 @@ var index = require("../Data/index.json");
 // @ts-ignore
 var fs = require('fs');
 var finalPath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\UsableData\\";
-var pokemonFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Pokemon";
-var trainerFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Trainer";
+var pokemonFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Pokemon\\";
+var trainerFilePath = "C:\\Users\\Anthony\\WebstormProjects\\An-2-nee\\src\\Data\\Trainer\\";
 var readFileStore = function (resourcePath) { return __awaiter(_this, void 0, void 0, function () {
     var files, returnArr, _i, files_1, file, rawData, _a, _b;
     return __generator(this, function (_c) {
@@ -54,7 +54,7 @@ var readFileStore = function (resourcePath) { return __awaiter(_this, void 0, vo
             case 1:
                 if (!(_i < files_1.length)) return [3 /*break*/, 5];
                 file = files_1[_i];
-                return [4 /*yield*/, fs.readFileSync(resourcePath + "\\" + file)];
+                return [4 /*yield*/, fs.readFileSync(resourcePath + file)];
             case 2:
                 rawData = _c.sent();
                 _b = (_a = returnArr).push;
@@ -70,7 +70,7 @@ var readFileStore = function (resourcePath) { return __awaiter(_this, void 0, vo
     });
 }); };
 var generateFiles = function () { return __awaiter(_this, void 0, void 0, function () {
-    var trainerFiles, pokemonFiles, trainerToPokemonMap, _loop_1, _i, trainerFiles_1, data;
+    var trainerFiles, pokemonFiles, trainerToPokemonMap, _loop_1, _i, trainerFiles_1, data_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, readFileStore(trainerFilePath)];
@@ -80,16 +80,16 @@ var generateFiles = function () { return __awaiter(_this, void 0, void 0, functi
             case 2:
                 pokemonFiles = _a.sent();
                 trainerToPokemonMap = [];
-                _loop_1 = function (data) {
+                _loop_1 = function (data_1) {
                     var _a, _b;
                     return __generator(this, function (_c) {
                         switch (_c.label) {
                             case 0:
                                 _b = (_a = trainerToPokemonMap).push;
-                                return [4 /*yield*/, data.pokemon_list.map(function (x) {
+                                return [4 /*yield*/, data_1.pokemon_list.map(function (x) {
                                         var pair = x.name.split(" & ");
                                         return {
-                                            trainer: data.name,
+                                            trainer: data_1.name,
                                             pokemon: pair[1]
                                         };
                                     }).filter(function (y) {
@@ -105,8 +105,8 @@ var generateFiles = function () { return __awaiter(_this, void 0, void 0, functi
                 _a.label = 3;
             case 3:
                 if (!(_i < trainerFiles_1.length)) return [3 /*break*/, 6];
-                data = trainerFiles_1[_i];
-                return [5 /*yield**/, _loop_1(data)];
+                data_1 = trainerFiles_1[_i];
+                return [5 /*yield**/, _loop_1(data_1)];
             case 4:
                 _a.sent();
                 _a.label = 5;
